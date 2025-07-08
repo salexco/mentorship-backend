@@ -36,3 +36,12 @@ exports.getAvailability = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.getMentorAvailability = async (req, res) => {
+  try {
+    const availability = await Availability.find({ mentor: req.params.mentorId });
+    res.json(availability);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};

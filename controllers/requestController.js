@@ -28,16 +28,18 @@ exports.getMyRequests = async (req, res) => {
 
 exports.getMyMentees = async (req, res) => {
   try {
-    const requests = await MentorshipRequest.find({ mentor: req.user.id }).populate('mentee', '-password');
+    const requests = await MentorshipRequest.find({ mentor: mentorObjectId }).populate('mentee', '-password');
     res.json(requests);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
+const mongoose = require('mongoose');
 exports.getMentorRequests = async (req, res) => {
   try {
-    const requests = await Request.find({ mentor: req.user.id }).populate('mentee', '-password');
+    const mentorObjectId = new mongoose.Types.ObjectId(req.user.id);
+    const requests = await MentorshipRequest.find({ mentor: mentorObjectId }).populate('mentee');
     res.json(requests);
   } catch (err) {
     res.status(400).json({ error: err.message });

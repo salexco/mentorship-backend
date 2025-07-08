@@ -5,5 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, availabilityController.setAvailability);
 router.get('/', authMiddleware, availabilityController.getAvailability);
+router.get('/:mentorId', authMiddleware, availabilityController.getMentorAvailability); 
 
 module.exports = router;

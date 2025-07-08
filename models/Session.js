@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const SessionSchema = new mongoose.Schema({
-  mentee: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+const sessionSchema = new mongoose.Schema({
   mentor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  day: { type: String, required: true },
-  slot: { type: String, required: true },
+  mentee: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  date: { type: Date },
+  time: { type: String },
   status: { type: String, enum: ['booked', 'completed', 'cancelled'], default: 'booked' }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Session', SessionSchema);
+module.exports = mongoose.model('Session', sessionSchema);
