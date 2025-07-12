@@ -18,6 +18,13 @@ router.get('/mentor', authMiddleware, async (req, res) => {
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { mentorId, date, time } = req.body;
+    console.log("📥 Booking request body:", req.body);
+    console.log("🔐 Authenticated user:", req.user);
+
+    if (!mentorId || !date || !time) {
+      console.log("❌ Missing booking fields!");
+      return res.status(400).json({ error: "Missing mentorId, date, or time" });
+    }
 
     const newSession = new Session({
       mentor: mentorId,
@@ -28,10 +35,11 @@ router.post('/', authMiddleware, async (req, res) => {
     });
 
     await newSession.save();
+    console.log("✅ New session saved:", newSession);
     res.json(newSession);
   } catch (err) {
-    console.error('Error booking session:', err.message);
-    res.status(500).json({ error: 'Server error' });
+    console.error('❌ Error booking session:', err);
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 
